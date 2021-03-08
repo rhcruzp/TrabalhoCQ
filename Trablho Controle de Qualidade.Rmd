@@ -35,13 +35,29 @@ process.capability(object = plot.xbar,
 
 #Avaliação do Sistema de Medição
 ```{r}
-r=(dados2$Mesure.1-dados2$Mesure.2)
+r=abs(dados2$Mesure.1-dados2$Mesure.2)
 
-rb=c(mean(r[1:5]),mean(r[6:10]),mean(r[11:15]))
-sigrepe=mean(rb)/1.128
+sigrepe=mean(r)/1.128
+sigrepe
+
 xbb=c(mean(dados$Response[1:10]),mean(dados$Response[11:20]),mean(dados$Response[21:30]))
-rxbb=range(xbb)[2]-range(xbb)[1]
-sigrepro=sqrt((rxbb/1.693)*2-(sigrepe*2)/(5*2))
-sigrepro
+rxbb=range(xbb)[2]-range(xbb)[1] #amplitude da média das médias
+sigrepro2=(rxbb/1.693)**2-(sigrepe**2/(15*2))
+
+# Como deu negativo, considera-se sigma reprodutibilidade igual a 0
+
+sigrepro=0
+sigmed=sigrepe
+ReR=6*sigmed
+porcentReR=ReR/(6*sd(dados$Response))*100
+porcentReR
 ```
 
+Observa-se que $\%R\&R=97.41726\%$. Portanto, com base neste resultado, o sistema de medição não se apresenta adequado. Para melhor avaliarmos a adequação do sistema, calcula-se a Porcentagem de Tolerância (PT).
+
+```{r}
+PT=ReR/(17-13)*100
+PT
+```
+
+Observa-se que, como $PT=174.6135\%$, o sistema de medição, de fato, se mostra inadequado.
