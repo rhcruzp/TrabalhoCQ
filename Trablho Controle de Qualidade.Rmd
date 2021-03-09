@@ -1,6 +1,6 @@
 ---
 title: "Trabalho Controle de Qualidade"
-author: "Rafael Hil'ario Cruz Peixoto"
+author: "Ariel Matheus Cordeiro Barbosa, Rafael Hilário Cruz Peixoto  e Tales Pereira Rodrigues"
 date: "09/03/2021"
 output: html_document
 ---
