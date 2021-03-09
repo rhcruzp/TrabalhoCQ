@@ -1,22 +1,29 @@
 ---
 title: "Trabalho Controle de Qualidade"
+author: "Rafael Hil'ario Cruz Peixoto"
+date: "09/03/2021"
 output: html_document
 ---
 
-site de referencia
-https://rpubs.com/adelmofilho/post4#:~:text=Gr%C3%A1ficos%20X%2Dbarra%20e%20R,-Para%20a%20constru%C3%A7%C3%A3o&text=A%20constru%C3%A7%C3%A3o%20de%20todos%20gr%C3%A1ficos,exemplo%2C%20com%20o%20seguinte%20c%C3%B3digo.
 
-```{r}
-install.packages("qcc")
+```{r setup, include=FALSE}
 library(qcc)
+tabela <- read.csv("Tabela.csv",header = T,sep = ";",dec = ",")
+dados <- read.csv("Grupo 5.csv",header = T, dec = ",", sep = ";")
+dados3 <- read.csv("Grupo 5  -  2.csv",header = T, dec = ",", sep = ";")
+dados2 <- dados3[,3:4]
+medias <- data.frame(mean(dados$Response[1:10]),mean(dados$Response[11:20]),mean(dados$Response[21:30]))
+mediasR <- data.frame(mean(dados2$R[1:5]),mean(dados2$R[6:10]),mean(dados2$R[11:5]))
+colnames(medias) <- c("Steve" ,  "Billie" , "Nathan")
+colnames(mediasR) <- c("Steve" ,  "Billie" , "Nathan")
 ```
 
 
 ```{r}
-dados <- read.csv("Grupo 5.csv",header = T, dec = ",", sep = ";")
-dados2 <- read.csv("Grupo 5  -  2.csv",header = T, dec = ",", sep = ";")
 dados
-dados2
+dados3
+medias
+mediasR
 ```
 
 #Gráficos de Controle
@@ -28,36 +35,42 @@ plot.R = qcc(dados2, type="R")
 
 #Análise de Capacidade 
 ```{r}
+lie <- 13
+lse <- 17
 process.capability(object = plot.xbar,
-                   spec.limits=c(6,9))
+                   spec.limits=c(lie,lse))
 ```
 
 
 #Avaliação do Sistema de Medição
 ```{r}
+
+d2 <- tabela$d2[2-1]
+
 r=abs(dados2$Mesure.1-dados2$Mesure.2)
 
-sigrepe=mean(r)/1.128
-sigrepe
+sigrepe=mean(r)/d2
 
-xbb=c(mean(dados$Response[1:10]),mean(dados$Response[11:20]),mean(dados$Response[21:30]))
-rxbb=range(xbb)[2]-range(xbb)[1] #amplitude da média das médias
-sigrepro2=(rxbb/1.693)**2-(sigrepe**2/(15*2))
+a <- (max(medias)-min(medias))/tabela$d2[3-1]
+b <- (sigrepe^2)/6
+sigrepro2 <- a^2-b
 
-# Como deu negativo, considera-se sigma reprodutibilidade igual a 0
+if(sigrepro2<=0){sigrepro2 <- 0}
 
-sigrepro=0
-sigmed=sigrepe
-ReR=6*sigmed
-porcentReR=ReR/(6*sd(dados$Response))*100
-porcentReR
+
+sigmed2 <- sigrepe^2+sigrepro2
+
+ReR <- 6*sqrt(sigmed2)
+
+PReR <- ReR/(6*sd(dados$Response))*100
+
+PT <- ReR/(lse-lie)*100
+
+resp <- list("DP repe" = sigrepe , "DP repro" = sqrt(sigrepro2) , "Var med" = sigmed2 , "R&R" = ReR , "%R&R" = PReR , "PT" = PT)
+
+resp
+
 ```
-
 Observa-se que $\%R\&R=97.41726\%$. Portanto, com base neste resultado, o sistema de medição não se apresenta adequado. Para melhor avaliarmos a adequação do sistema, calcula-se a Porcentagem de Tolerância (PT).
-
-```{r}
-PT=ReR/(17-13)*100
-PT
-```
 
 Observa-se que, como $PT=174.6135\%$, o sistema de medição, de fato, se mostra inadequado.
