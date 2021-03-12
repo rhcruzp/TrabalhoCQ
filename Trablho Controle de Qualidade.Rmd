@@ -71,6 +71,6 @@ resp <- list("DP repe" = sigrepe , "DP repro" = sqrt(sigrepro2) , "Var med" = si
 resp
 
 ```
-Observa-se que $\%R\&R=97.41726\%$. Portanto, com base neste resultado, o sistema de medição não se apresenta adequado. Para melhor avaliarmos a adequação do sistema, calcula-se a Porcentagem de Tolerância (PT).
+Observa-se que $\%R\&R=97.42\%$. Portanto, com base neste resultado, o sistema de medição não se apresenta adequado. Para melhor avaliarmos a adequação do sistema, calcula-se a Porcentagem de Tolerância (PT).
 
-Observa-se que, como $PT=174.6135\%$, o sistema de medição, de fato, se mostra inadequado.
+Observa-se que, como $PT=174.61\%$, o sistema de medição, de fato, se mostra inadequado.
