@@ -26,14 +26,14 @@ medias
 mediasR
 ```
 
-#Gráficos de Controle
+# Gráficos de Controle
 ```{r}
 plot.xbar = qcc(dados2, type="xbar")
 plot.R = qcc(dados2, type="R")
 ```
 
 
-#Análise de Capacidade 
+# Análise de Capacidade 
 ```{r}
 lie <- 13
 lse <- 17
@@ -42,7 +42,7 @@ process.capability(object = plot.xbar,
 ```
 
 
-#Avaliação do Sistema de Medição
+# Avaliação do Sistema de Medição
 ```{r}
 
 d2 <- tabela$d2[2-1]
@@ -52,7 +52,7 @@ r=abs(dados2$Mesure.1-dados2$Mesure.2)
 sigrepe=mean(r)/d2
 
 a <- (max(medias)-min(medias))/tabela$d2[3-1]
-b <- (sigrepe^2)/6
+b <- (sigrepe^2)/10
 sigrepro2 <- a^2-b
 
 if(sigrepro2<=0){sigrepro2 <- 0}
